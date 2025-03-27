@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-// ----- PWM bounds for each servo -----!!
+// ----- PWM bounds for each servo -----
 // Adjust these values to match your servo's calibration for 0° and 180°.
 const int SERVO1_MIN_PULSE = 1230;   // default minimum pulse width in microseconds
 const int SERVO1_MAX_PULSE = 2400;  // default maximum pulse width in microseconds
