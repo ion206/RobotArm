@@ -26,6 +26,9 @@ Servo servo2;
 Servo servo3;
 Servo servo4;
 
+  int values[5];  // Array to store five integers
+
+
 void setup() {
   // Attach servos with the specified PWM bounds
   servo1.attach(SERVO1_PIN, SERVO1_MIN_PULSE, SERVO1_MAX_PULSE);
@@ -34,50 +37,50 @@ void setup() {
   servo4.attach(SERVO4_PIN, SERVO4_MIN_PULSE, SERVO4_MAX_PULSE);
   
   // Start serial communication
-  Serial.begin(9600);
-  Serial.println("Enter 4 angles (0-180) separated by any delimiter:");
+  Serial.begin(11500);
+  while (!Serial) {
+    ; // Wait for serial port to connect (needed for some boards)
+  }
 }
 
 void loop() {
   // Check if data is available on Serial
+  // Check if data is available on the serial port
   if (Serial.available() > 0) {
-    // Read 4 integers from the serial stream using parseInt (it skips non-digit characters)
-    int angle1 = Serial.parseInt();
-    int angle2 = Serial.parseInt();
-    int angle3 = Serial.parseInt();
-    int angle4 = Serial.parseInt();
-    
-    // Validate that each angle is within 0-180
-    if (
-        angle2 < 0 || angle2 > 180 ||
-        angle3 < 0 || angle3 > 180){
-      Serial.println("Invalid input. Angles must be between 0 and 180.");
-    } else {
-      angle1 = SERVO1_MIN_PULSE + (angle1 * ((SERVO1_MAX_PULSE - SERVO1_MIN_PULSE)/180));
-      // Set servos to the specified angles
-      servo1.writeMicroseconds(angle1);
-      servo2.write(angle2);
-      servo3.write(angle3);
-      servo4.write(angle4);
-      
-      Serial.print("Servo 1 set to: ");
-      Serial.println(angle1);
-      Serial.print("Servo 2 set to: ");
-      Serial.println(angle2);
-      Serial.print("Servo 3 set to: ");
-      Serial.println(angle3);
-      Serial.print("Servo 4 set to: ");
-      Serial.println(angle4);
+    // Read five integers from the serial buffer
+    for (int i = 0; i < 5; i++) {
+      // Wait until data is available for each integer
+      while (Serial.available() == 0) {
+        // do nothing
+      }
+      values[i] = Serial.parseInt();
     }
-    
-    // Clear any remaining input until newline (if any)
-    while (Serial.available() > 0) {
-      char c = Serial.read();
-      if(c == '\n') break;
+
+    // Echo the received integers back over serial (space-separated)
+    for (int i = 0; i < 5; i++) {
+      Serial.print(values[i]);
+      if (i < 4) {
+        Serial.print(" ");
+      }
     }
-    
-    // Prompt for next input
-    Serial.println("\nEnter 4 angles (0-180) separated by any delimiter:");
-    Serial.println(servo4.readMicroseconds());
+    Serial.println(); // End the message with a newline
   }
-}
+    
+      values[0] = SERVO1_MIN_PULSE + (values[0] * ((SERVO1_MAX_PULSE - SERVO1_MIN_PULSE)/180));
+      // Set servos to the specified angles
+      servo1.writeMicroseconds(values[0]);
+      servo2.write(values[1]);
+      servo3.write(values[2]);
+      servo4.write(values[3]);
+      /*
+      Serial.print("Servo 1 set to: ");
+      Serial.println(values[0]);
+      Serial.print("Servo 2 set to: ");
+      Serial.println(values[1]);
+      Serial.print("Servo 3 set to: ");
+      Serial.println(values[2]);
+      Serial.print("Servo 4 set to: ");
+      Serial.println(values[3]);
+      */
+    }
+

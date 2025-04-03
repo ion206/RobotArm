@@ -3,8 +3,8 @@ import time
 
 def main():
     # Set your serial port and baud rate (match Arduino's Serial.begin(9600))
-    port = '/dev/cu.usbmodem1201'  # e.g., on Linux; change to 'COM3' on Windows if needed
-    baud_rate = 9600
+    port = '/dev/cu.usbmodem1301'  # e.g., on Linux; change to 'COM3' on Windows if needed
+    baud_rate = 11500
 
     try:
         ser = serial.Serial(port, baud_rate, timeout=1)
