@@ -1,4 +1,5 @@
 class Marker:
+    #ArUco Maker variables
     id = 0
     x = 0
     y = 0 
