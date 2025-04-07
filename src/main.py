@@ -1,5 +1,6 @@
 import tagPositioner as tags
 import robotController as RC
+import inverseKinematics as IK
 from marker import Marker
 import cv2
 import math
@@ -10,7 +11,7 @@ RC.init()
 
 marker4 = Marker(4, [0,0], [0,0,0])
 
-armVals = [135,90,90,90,0]
+armVals = [160,20,90,60,0]
 
 while True:
     if cap.isOpened():
@@ -18,6 +19,8 @@ while True:
         if ret:
             markers = tags.getpos(frame)
             marker4.updatePos(markers)
+            armVals = IK.getAngs(marker4.x,marker4.y, 7, 80, 100)
+            RC.updateArm(armVals)
 
     print(marker4)
     cv2.imshow('Aruco Pose Estimation', frame)
