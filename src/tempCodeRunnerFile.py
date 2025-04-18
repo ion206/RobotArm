@@ -1,2 +1,1 @@
-
-armVals = [135,90,90,90,0]
+s = IK.getAngs(marker4.x,marker4.y, 7, 80, 100)

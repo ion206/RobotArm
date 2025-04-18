@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 
 # Camera Calibration Parameters (from your camera calibration)
-camera_matrix = np.array([[4602.25871, 0, 2249.91543],
-                          [0, 4619.42349, 1583.36098],
+camera_matrix = np.array([[2227.35615, 0, 951.228987],
+                          [0, 4579.19553, 496.488372],
                           [0, 0, 1]], dtype=np.float32)
 
 # Distortion Coefficients
-dist_coeffs = np.array([0.06408, -0.13626, -0.00030, 0.00012, -0.16315], dtype=np.float32)
+dist_coeffs = np.array([0.12121332,-2.37294524 , 0.06190478 , 0.01709179 , 6.04749432], dtype=np.float32)
 
 # Define marker side length in meters (adjust if needed)
 marker_length = 0.048  # 5 cm marker

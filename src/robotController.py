@@ -3,7 +3,7 @@ import time
 
 #This code handles setting robot joint angles and serial communication with the Arduino Uno in the Robot Arm
 
-port = '/dev/cu.usbmodem1301'  #Running on USB Moden USB3 Port 1
+port = '/dev/cu.usbmodem12401'  #Running on USB Moden USB3 Port 1
 baud_rate = 115200
 ser = serial.Serial(port, baud_rate, timeout=1)
 init = False
