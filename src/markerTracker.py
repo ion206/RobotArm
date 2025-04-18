@@ -4,14 +4,14 @@ import inverseKinematics as IK
 from marker import Marker
 import cv2
 import math
-import time
 
 cap = cv2.VideoCapture(0)
 RC.init()
 
 marker4 = Marker(4, [0,0], [0,0,0])
 
-armVals = [160,20,90,60,0]
+armVals = [160,40,90,60,0]
+zbias = -30
 
 while True:
     if cap.isOpened():
@@ -19,7 +19,7 @@ while True:
         if ret:
             markers = tags.getpos(frame)
             marker4.updatePos(markers)
-            armVals = IK.getAngs(marker4.x,marker4.y, -20, 100, 125)
+            armVals[3] = IK.baseAngle(marker4.x,marker4.y, zbias)
             RC.updateArm(armVals.copy())
 
     print(marker4)
