@@ -1,5 +1,5 @@
 
-from RobotArm.src import robotController as RC
+from robotControl import robotController as RC
 
 RC.init()
 values = [150,90, 0 ,90,90]
