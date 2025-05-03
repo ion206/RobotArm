@@ -1,0 +1,5 @@
+src/__pycache__
+*.pyc
+.DS_Store
+src/config.cfg
+Archive

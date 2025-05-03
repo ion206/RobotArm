@@ -1,7 +1,8 @@
-import robotController as RC
+
+from RobotArm.src import robotController as RC
 
 RC.init()
-values = [150,90,90,90,0]
+values = [150,90, 0 ,90,90]
 RC.updateArm(values)
 while True:
     servo = input("Enter Servo #: ")

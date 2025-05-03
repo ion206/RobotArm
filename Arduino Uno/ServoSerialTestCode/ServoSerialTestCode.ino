@@ -14,17 +14,22 @@ const int SERVO3_MAX_PULSE = 350;
 const int SERVO4_MIN_PULSE = 550;
 const int SERVO4_MAX_PULSE = 2050;
 
+const int SERVO5_MIN_PULSE = 200;
+const int SERVO5_MAX_PULSE = 350;
+
 // ----- Servo pins -----
 const int SERVO1_PIN = 6;
 const int SERVO2_PIN = 5;
 const int SERVO3_PIN = 10;
 const int SERVO4_PIN = 11;
+const int SERVO5_PIN = 9;
 
 // Create servo objects
 Servo servo1;
 Servo servo2;
 Servo servo3;
 Servo servo4;
+Servo servo5;
 
   int values[5];  // Array to store five integers
 
@@ -35,6 +40,8 @@ void setup() {
   servo2.attach(SERVO2_PIN, SERVO2_MIN_PULSE, SERVO2_MAX_PULSE);
   servo3.attach(SERVO3_PIN, SERVO3_MIN_PULSE, SERVO3_MAX_PULSE);
   servo4.attach(SERVO4_PIN, SERVO4_MIN_PULSE, SERVO4_MAX_PULSE);
+  servo5.attach(SERVO5_PIN, SERVO5_MIN_PULSE, SERVO5_MAX_PULSE);
+  
   
   // Start serial communication
   Serial.begin(115200);
@@ -74,6 +81,7 @@ void loop() {
       servo2.write(values[1]);
       servo3.write(values[2]);
       servo4.write(values[3]);
+      servo5.write(values[4]);
       /*
       Serial.print("Servo 1 set to: ");
       Serial.println(values[0]);

@@ -1,12 +1,17 @@
 import serial
 import time
+import configparser
+parser = configparser.ConfigParser()
+parser.read("src/config.cfg")
 
 #This code handles setting robot joint angles and serial communication with the Arduino Uno in the Robot Arm
 
-port = '/dev/cu.usbmodem12401'  #Running on USB Moden USB3 Port 1
-baud_rate = 115200
+
+port = parser['Serial'].get('port')
+baud_rate = parser['Serial'].getint('baudrate')
 ser = serial.Serial(port, baud_rate, timeout=1)
 init = False
+
 
 def init(): 
     print("Initilizing Serial with Arduino...")
@@ -19,7 +24,7 @@ def updateArm(values):
         return
     values[0] = int((values[0] * 100/180)+80)
     values[1] = (180-(values[1]-25))
-    values[2] = values[2] + 90
+    values[2] = values[2] + 45
     values[3] = int(values[3] * (180/130))
     data = ' '.join(str(v) for v in values) + '\n' # Create a space-separated string ending with a newline
     ser.write(data.encode())
@@ -28,7 +33,12 @@ def updateArm(values):
     response = ser.readline().decode().strip()
     return response # Returns the response from the Arduino
 
-
+def release():
+    values = [0,0,0,0,0]
+    data = ' '.join(str(v) for v in values) + '\n' # Create a space-separated string ending with a newline
+    ser.write(data.encode())
+    response = ser.readline().decode().strip()
+    print(response)
 def close():
     print("Closing Serial")
     ser.close()
