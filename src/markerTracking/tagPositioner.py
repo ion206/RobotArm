@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-# Camera Calibration Parameters (from your camera calibration)
+# Camera Calibration Parameters
 camera_matrix = np.array([[2227.35615, 0, 951.228987],
                           [0, 4579.19553, 496.488372],
                           [0, 0, 1]], dtype=np.float32)
@@ -10,7 +10,7 @@ camera_matrix = np.array([[2227.35615, 0, 951.228987],
 dist_coeffs = np.array([0.12121332,-2.37294524 , 0.06190478 , 0.01709179 , 6.04749432], dtype=np.float32)
 
 # Define marker side length in meters (adjust if needed)
-marker_length = 0.048  # 5 cm marker
+marker_length = 0.05  # 5 cm marker
 
 # Define dictionary and detector parameters
 aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
@@ -69,10 +69,10 @@ def getpos(frame):
             (marker3pos[0],marker3pos[1])
         ]
         mappoints = [
-            (480,390),
-            (0,390),
-            (480,0),
-            (0,0)
+            (0,410),
+            (0,0),
+            (410,0),
+            (410,410)
         ]
 
         testpoint = [(marker4pos[0], marker4pos[1])]

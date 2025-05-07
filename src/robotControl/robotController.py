@@ -32,7 +32,11 @@ def updateArm(values):
     # Read the response from Arduino
     response = ser.readline().decode().strip()
     return response # Returns the response from the Arduino
-
+def reset():
+    array = parser.get('Arm', 'servoResets')
+    arr = [value.strip() for value in array.split(',')]
+    ints = list(map(int, arr))
+    updateArm(ints.copy())
 def release():
     values = [0,0,0,0,0]
     data = ' '.join(str(v) for v in values) + '\n' # Create a space-separated string ending with a newline
