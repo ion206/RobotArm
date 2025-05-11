@@ -1,14 +1,18 @@
 # 🤖 3-Axis Vision-Guided Robotic Arm with ArUco-Based Spatial Intelligence
 
-**By: Ayan Syed**
+## **By: Ayan Syed**
 
 A low-cost, modular 3-axis robotic arm with an integrated vision system that detects ArUco markers for intelligent object manipulation. Designed for personal research, prototyping, and education, this project features end-to-end integration of computer vision, AI path-planning, inverse kinematics, and embedded hardware.
+
+
+
+https://github.com/user-attachments/assets/a0834c23-6752-498c-9e1d-b0ebb045fb8b
+
 
 
 ---
 
 ## 📦 Features
-
 - ArUco marker-based block detection and localization with planar Homography
 - Inverse kinematics with collision-aware motion planning using URDF and IKPy
 - Serial communication between Host computer and Arduino robot controller
@@ -17,6 +21,9 @@ A low-cost, modular 3-axis robotic arm with an integrated vision system that det
 - Designed for minimal cost(all hardware < $45) and maximum modifiability. Fully Open Source
 
 ---
+
+
+https://github.com/user-attachments/assets/61cfe404-c097-4321-8dbf-4411ba208413
 
 # 🧠 How It Works
 Vision: Camera detects ArUco tags to localize block positions.
@@ -28,8 +35,6 @@ IK + Control: getAngs() calculates angles using IKPy and the robots URDF File �
 Motion: Arm executes pickup/drop sequence with configurable delays.
 
 ---
-
-![Screenshot 2025-05-06 at 11 32 23 PM](https://github.com/user-attachments/assets/e785ef03-147a-4318-81a5-10357f683599)
 
 ## 🧠 Software Architecture
 
@@ -57,6 +62,10 @@ Motion: Arm executes pickup/drop sequence with configurable delays.
 
 ---
 
+
+![Screenshot 2025-05-06 at 11 32 23 PM](https://github.com/user-attachments/assets/e785ef03-147a-4318-81a5-10357f683599)
+
+
 ## 🛠️ Hardware
 CAD was done in Fusion 360 & Onshape
 3D Printed on Bambu Lab A1 Mini
@@ -67,7 +76,7 @@ CAD was done in Fusion 360 & Onshape
 | **Gripper**            | Parallel claw gripper                         |
 | **Servos**             | 5x SG90 / MG90S motors                        |
 | **Controller**         | Arduino Uno                                   |
-| **Host Computer **     | Any Modern Computer
+| **Host Computer**    | Any Modern Computer
 | **Camera**             | USB webcam mounted top-down                   |
 | **Power Supply**       | 3.5V Lipo Battery, 2A–5A external line        |
 | **Workspace**          | Flat surface with ArUco markers               |
@@ -89,28 +98,18 @@ All hardware is easily accessible. For a full B.O.M. pls reach out
 
 ---
 
+
+https://github.com/user-attachments/assets/c0df00d9-8648-4762-a208-6bb8f0a5d23d
+
+---
 ## 📁 File Structure
-src/
-├── markerTracking/
-│ └── tagPositioner.py # Marker detection + homography
-├── robotControl/
-│ ├── getAngles.py # IK with ikpy
-│ ├── robotController.py # Serial + angle mapping
-│ ├── robotArm.urdf # Arm kinematic description
-├── marker/
-│ └── Marker.py # ArUco marker object class
-├── main.py # Entry point for motion execution
-├── config.cfg # Arm parameters and offsets
+![image](https://github.com/user-attachments/assets/4304e204-74ed-4cf2-b96c-a7fc33a3d8d4)
+
 
 ---
 
-#🧾 JSON Command Format
-[
-  {"pos": [320, 180, 120], "delay": 1},
-  {"pos": [320, 180, 40], "delay": 0.5},
-  {"pos": [400, 250, 120], "delay": 1},
-  {"pos": [400, 250, 40], "delay": 0.5}
-]
+## 🧾 JSON Command Format
+[ x: int, y: int, z: int, delay: int, claw: int ]
 All coordinates in millimeters
 
 To run the code, you will need a config file, that can be parsed by configpaser by Python, 
