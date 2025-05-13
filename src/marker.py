@@ -19,8 +19,8 @@ class Marker:
 
     def updatePos(self, newPos): #Putting this here in case we want to add smoothing in the future (comp filter etc.)
         if newPos[0] != -1 and newPos[1] != -1: ##If position lost, ensuring that last known position saved
-            self.x = newPos[0] 
-            self.y = newPos[1]
+            self.x = int(newPos[0]) 
+            self.y = int(newPos[1])
 
     def updateRot(self, newRot):
         self.rot = newRot

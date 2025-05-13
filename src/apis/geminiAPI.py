@@ -19,43 +19,31 @@ def processResponse(txt):
 
 def sendCommand(command, object1, object2, num):
     
-    prompt = f"""I have a robotic arm with a claw that I need you to send commands to by taking
-    in commands and outputting an array of xyz coordinates performing those in JSON format with certain delays(seconds) in between
+    prompt = f"""
+I have a robotic arm with a claw that moves based on given commands. Output an array of xyz coordinates in JSON format with delays between movements. All measurements are in mm.
 
-    I have also given you an image. the top left qrcode is 0,0 and the more left is higher x values while down is higher y-values
-
-
-    EVERYTHING IS IN MM
-    the robot will move to your xyz position and the claw will face down ready to pick up an object
-    reset position = (210, 200, 40)
-    pick up height is 0
-    always stay above z=40 unless dropping or picking
-    any point which has x<300 AND y< 150 is off limit
-    move the z=60 before traveling a long distance
-    when dropping and picking, move to the point at z=40 first, then go down to the necessary height, then engage the claw
-    drop height is 15
-    you have to be smart about how you move objects, if you pick up an object and move it to where there anotehr object, they both will hit right. so you have manage that smartly
-    reset at the end of the whole sequence as well
-    when you want to have the claw closed, set claw value to 1, otherwise keep it at 0
-    delays dont need to be longer than 5 seconds
-    DONT PRINT ANYTHING OTHER THAN THE JSON, not a single word
-    only put ints, not expression as values
-    Example Command format in JSON:
-    {{
-        "x": 250,
-        "y": 10,
-        "z": 0,
-        "delay": 3,
-        "claw" : 0
-    }},
-    object1 position = {str(object1)} object2 position = {str(object2)}
+- The arm starts at position (210, 200, 40).
+- Avoid any points where x < 300 AND y < 150 for temporary placement. temp points should be very far from other points, just for accuracy and repeatability
+- To avoid obstacles, always move to at least z = 120 before traveling large xy distances and after picking somthing up.
+- When picking up or dropping: first move to 40mm above the target position, then descend to the desired height, and engage/release the claw at that position.
+- To close the claw, set "claw" to 1; to open, set "claw" to 0.
+- Blocks are 60mm tall(for stacking purposes), need to picked up and dropped off the ground from z=40, each with a colored stripe for identification
+- to place a block on top of antoher block you need to drop 45mm on top of the height of one
+- Keep in mind the blocks' colors and ensure proper handling when stacking.
+- The image's top-left QR code is at (0,0). As you move left, x increases, and as you move down, y increases.
+- Do not place blocks in regions where x < 300 AND y < 150 (temporary placement is restricted here).
+- Always reset to position (210, 200, 40) at the end of the sequence.
+- Do not print anything except the JSON, formatted like this:
+[ x: int, y: int, z: int, delay: int, claw: int ]
+  The delay is in seconds and between commands should not exceed 5 seconds.
+    Red Block position = {str(object1)} Green Block position = {str(object2)}
     Command: {command}"""
 
     with open('src/GeminiImage.jpg', 'rb') as f:
         image_bytes = f.read()
-
+#gemini-2.0-flash
     response = client.models.generate_content(
-        model='gemini-2.5-pro-exp-03-25',
+        model='gemini-2.0-flash',
         contents=[
             types.Part.from_bytes(
                 data=image_bytes,

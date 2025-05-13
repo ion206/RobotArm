@@ -1,0 +1,1 @@
+armVals = IK.getAngs([(marker5.x-armX) / 1000, (marker5.y-armY) / 1000, z])

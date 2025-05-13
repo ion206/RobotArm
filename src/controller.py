@@ -1,6 +1,7 @@
 import pygame
 import time
 from robotControl import robotController as RC
+from robotControl import getAngles as IK
 
 # Initialize controller
 pygame.init()
@@ -16,10 +17,11 @@ joystick.init()
 print(f"Connected to: {joystick.get_name()}")
 
 # Arm joint state: base, shoulder, elbow, wrist, gripper
-angles = [150,90, 0 ,90, 0]
+xyz = [200, 100, 50]
+angles = [150, 90, 0 , 90, 90]
 
 # Angle change rate per joystick input
-delta = 2
+delta = 4
 
 
 try:
@@ -28,7 +30,7 @@ try:
         pygame.event.pump()  # Process events
 
         # Axes are between -1 and 1; you can scale this for control
-        base_input = joystick.get_axis(3) if abs(joystick.get_axis(3)) >= 0.25 else 0 # Left stick horizontal
+        base_input = joystick.get_axis(0) if abs(joystick.get_axis(0)) >= 0.25 else 0 # Left stick horizontal
         shoulder_input = joystick.get_axis(1) if abs(joystick.get_axis(1)) >= 0.25 else 0  # Left stick vertical
         elbow_input = joystick.get_axis(5) if joystick.get_axis(5) >= 0.25 else 0  # Right bumper
         elbow_input2 = joystick.get_axis(4) if joystick.get_axis(4) >= 0.25 else 0  # Left Bumper
@@ -38,19 +40,20 @@ try:
         a_pressed = joystick.get_button(0)  # A
         b_pressed = joystick.get_button(1)  # B
         start_pressed = joystick.get_button(7)  # Start
-        print(base_input," " , shoulder_input, " ", elbow_input, " ", wrist_input)
+        #print(base_input," " , shoulder_input, " ", elbow_input, " ", wrist_input)
         # Adjust angles
-        angles[0] += int(-base_input * delta)
-        angles[1] += int(-shoulder_input * delta)
-        angles[2] += int((elbow_input-elbow_input2) * delta * 2)
-        angles[3] += int(-wrist_input * delta)
+        xyz[0] += int(base_input * delta)
+        xyz[1] += int(-shoulder_input * delta)
+        xyz[2] += int((elbow_input-elbow_input2) * delta * 2)
 
         # Gripper control
+
+        angles = IK.getAngs([xyz[0] / 1000, xyz[1] / 1000, xyz[2] / 1000])
+        print(xyz)
         if a_pressed:
             angles[4] = 0
         elif b_pressed:
             angles[4] = 90
-
         # Send update to Arduino
         response = RC.updateArm(angles.copy())
         #print("Arduino:", response)
