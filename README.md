@@ -1,4 +1,4 @@
-# 🤖 3-Axis Vision-Guided Robotic Arm with ArUco-Based Spatial Intelligence
+# 🤖 3-Axis Vision-Guided Robotic Arm with ArUco Markers and Gemini-Based Spatial Intelligence
 
 ## **By: Ayan Syed**
 
@@ -6,7 +6,9 @@ A low-cost, modular 3-axis robotic arm with an integrated vision system that det
 
 
 
-https://github.com/user-attachments/assets/a0834c23-6752-498c-9e1d-b0ebb045fb8b
+https://github.com/user-attachments/assets/65d640ed-7b3e-4d83-9f5d-62e66aa19349
+
+
 
 
 
