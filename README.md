@@ -2,7 +2,7 @@
 
 ## **By: Ayan Syed**
 
-A low-cost, modular 3-axis robotic arm with an integrated vision system that detects ArUco markers for intelligent object manipulation. Designed for personal research, prototyping, and education, this project features end-to-end integration of computer vision, AI path-planning, inverse kinematics, and embedded hardware.
+A low-cost, modular 3-axis robotic arm with an integrated vision system that detects ArUco markers for intelligent object manipulation. Designed for personal research, prototyping, and education, this project features end-to-end integration of computer vision, AI path-planning, motion profiling, inverse kinematics, and embedded hardware.
 
 
 
@@ -23,9 +23,15 @@ https://github.com/user-attachments/assets/65d640ed-7b3e-4d83-9f5d-62e66aa19349
 - Designed for minimal cost(all hardware < $45) and maximum modifiability. Fully Open Source
 
 ---
-
+IK + Camera Demo
 
 https://github.com/user-attachments/assets/61cfe404-c097-4321-8dbf-4411ba208413
+
+Motion Profiling
+
+
+https://github.com/user-attachments/assets/51813a60-5a0f-49e2-bd5f-f85332e185c5
+
 
 # 🧠 How It Works
 Vision: Camera detects ArUco tags to localize block positions.
@@ -56,6 +62,7 @@ Motion: Arm executes pickup/drop sequence with configurable delays.
 - Uses Google Gemini Web API - Gemini-Flash-2.0 LLM Model
 - Custom prompt used to describe context and requirements
 - Wrote a position/movement sequencer for reliable and consistent robot actions
+- Points are interpolated by a trapezoidal motion profile and sent to the robot
 
 ### 🔌 Control Logic
 - Commands are passed via USB serial (PySerial)
@@ -87,15 +94,19 @@ All hardware is easily accessible. For a full B.O.M. pls reach out
 
 ---
 
+![[SoftwareSidevideo]](https://github.com/ion206/RobotArm/blob/741715df65866e2168a15d8cec7bc9bb57275f48/TestScripts/softwareSideVideo.mov)
+
 ## 🧪 Technologies Used
 
-- **Languages**: Python, C++, Assembly (for low-level control)
+- **Languages**: Python, C++
 - **Libraries**:
   - OpenCV
   - ikpy
   - pyserial
-- **Mechanical Design**: Fusion 360
-- **Fabrication**: 3D printing, CNC
+  - numpy
+  - Google Gemini API
+- **Mechanical Design**: Fusion 360, Onshape
+- **Fabrication**: 3D printing, Soldering
 - **Future Support**: ROS2, MoveIt2
 
 ---
