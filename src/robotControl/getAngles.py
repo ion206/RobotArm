@@ -7,7 +7,7 @@ import math
 
 import matplotlib.pyplot as plt
 
-checkPlot = True
+checkPlot = False
 
 chain = ikpy.chain.Chain.from_urdf_file(
     "src/robotControl/robotArm.urdf",base_elements=["base_stand"], 

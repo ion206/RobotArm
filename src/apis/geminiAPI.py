@@ -24,11 +24,11 @@ I have a robotic arm with a claw that moves based on given commands. Output an a
 
 - The arm starts at position (210, 200, 40).
 - Avoid any points where x < 300 AND y < 150 for temporary placement. temp points should be very far from other points, just for accuracy and repeatability
-- To avoid obstacles, always move to at least z = 120 before traveling large xy distances and after picking somthing up.
+- To avoid obstacles, always move to at least z = 120 before traveling xy distances and after picking somthing up.
 - When picking up or dropping: first move to 40mm above the target position, then descend to the desired height, and engage/release the claw at that position.
 - To close the claw, set "claw" to 1; to open, set "claw" to 0.
 - Blocks are 60mm tall(for stacking purposes), need to picked up and dropped off the ground from z=40, each with a colored stripe for identification
-- to place a block on top of antoher block you need to drop 45mm on top of the height of one
+- to place a block on top of antoher block you need to drop at z=70mm
 - Keep in mind the blocks' colors and ensure proper handling when stacking.
 - The image's top-left QR code is at (0,0). As you move left, x increases, and as you move down, y increases.
 - Do not place blocks in regions where x < 300 AND y < 150 (temporary placement is restricted here).

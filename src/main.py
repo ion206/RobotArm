@@ -3,7 +3,7 @@ import math
 import time
 
 from markerTracking import tagPositioner as tags
-from robotControl import robotController as RC
+from robotControl.robotController import robotController
 from robotControl import getAngles as IK
 from marker import Marker
 
@@ -20,7 +20,7 @@ armY = parser['Arm'].getint('armYpos') #Y Pos in desk coords
 
 #Init Camera, init Robot
 cap = cv2.VideoCapture(0)
-RC.init()
+RC = robotController()
 
 #IK.init_plot()
 
@@ -30,10 +30,9 @@ marker5 = Marker(4, [0,0], [0,0,0])
 marker6 = Marker(4, [0,0], [0,0,0])
 
 
-RC.reset() #Zero Out robot a the start
+RC.reset() #Zero Out robot at the start
 
 z = 0
-grab = 90
 delay = 0
 
 while True:
@@ -45,18 +44,15 @@ while True:
             marker5.updatePos(markers[1]) #Update Marker5 object
             marker6.updatePos(markers[2]) #Update Marker6 object
 
-            #Calculate InverseKinematics of the position relative to the arm's X & Y
-            #Divide by 1000 becuase IK requires input in Meters(m)
-            armVals = IK.getAngs([(marker4.x-armX) / 1000, (marker4.y-armY) / 1000, z])
-            armVals[4] = grab #Current Arm Grab poisition, Open:90, Closed:0
+            #Calculate position relative to the arm's X & Y
+            pos = [(marker4.x-armX), (marker4.y-armY), z]
+            RC.goToPos(pos, False)  #Move robot to position with smooth motion
 
-            RC.updateArm(armVals.copy())  #Send Servo Values to robot
     cv2.imshow('Aruco Pose Estimation', frame)
                 
-
     #End Script on q-pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        #Reset Robot, release servos, and close are serial/camera lines
+        #Reset Robot, release servos, and close all serial/camera lines
         RC.reset() 
         time.sleep(1)
         RC.release()
@@ -64,5 +60,3 @@ while True:
         cap.release()
         cv2.destroyAllWindows()
         break
-
-    

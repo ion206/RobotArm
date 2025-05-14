@@ -101,8 +101,12 @@ def getpos(frame):
         marker4 = map_desk_coordinates(imagepoints, mappoints, [(marker4pos[0], marker4pos[1])])
     if marker5pos[0] != 0:
         marker5 = map_desk_coordinates(imagepoints, mappoints, [(marker5pos[0], marker5pos[1])])
+        marker5[1] -= 16
+        marker5[0] += 5
     if marker6pos[0] != 0:
         marker6 = map_desk_coordinates(imagepoints, mappoints, [(marker6pos[0], marker6pos[1])])
+        marker6[0] -= 15
+        marker6[1] -= 5
     return [marker4,marker5,marker6]
 
 def map_desk_coordinates(image_points, desk_points, test_points):
