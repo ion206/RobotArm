@@ -11,6 +11,7 @@ dist_coeffs = np.array([0.12121332,-2.37294524 , 0.06190478 , 0.01709179 , 6.047
 
 # Define marker side length in meters (adjust if needed)
 marker_length = 0.05  # 5 cm marker
+marker5_6_length = 0.02  # 2 cm markers (for marker 5 and marker 6)
 
 # Define dictionary and detector parameters
 aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
@@ -22,12 +23,23 @@ objp = np.array([[-marker_length / 2,  marker_length / 2, 0],
                  [ marker_length / 2, -marker_length / 2, 0],
                  [-marker_length / 2, -marker_length / 2, 0]], dtype=np.float32)
 
+objp_5_6 = np.array([[-marker5_6_length / 2,  marker5_6_length / 2, 0],
+                     [ marker5_6_length / 2,  marker5_6_length / 2, 0],
+                     [ marker5_6_length / 2, -marker5_6_length / 2, 0],
+                     [-marker5_6_length / 2, -marker5_6_length / 2, 0]], dtype=np.float32)
+
 
 # Start video capture
 
 def getpos(frame):
-    marker0pos, marker0rot,marker1pos, marker1rot,marker2pos, marker2rot,marker3pos, marker3rot, marker4pos, marker4rot = np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0]),np.array([0,0,0])
-    
+    marker0pos, marker0rot = np.array([0,0,0]), np.array([0,0,0])
+    marker1pos, marker1rot = np.array([0,0,0]), np.array([0,0,0])
+    marker2pos, marker2rot = np.array([0,0,0]), np.array([0,0,0])
+    marker3pos, marker3rot = np.array([0,0,0]), np.array([0,0,0])
+    marker4pos, marker4rot = np.array([0,0,0]), np.array([0,0,0])
+    marker5pos, marker5rot = np.array([0,0,0]), np.array([0,0,0])
+    marker6pos, marker6rot = np.array([0,0,0]), np.array([0,0,0])
+
     # Convert frame to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -40,11 +52,16 @@ def getpos(frame):
 
         # Estimate pose for each marker
         for i in range(len(ids)):
-            ret_pnp, rvec, tvec = cv2.solvePnP(objp, corners[i].reshape((4, 2)), 
+            if ids[i][0] == 5 or ids[i][0] == 6:
+                objp_used = objp_5_6
+            else:
+                objp_used = objp
+            ret_pnp, rvec, tvec = cv2.solvePnP(objp_used, corners[i].reshape((4, 2)), 
                                             camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_IPPE_SQUARE)
             if ret_pnp:
                 # Draw the axis on the marker
                 cv2.drawFrameAxes(frame, camera_matrix, dist_coeffs, rvec, tvec, 0.03)
+                print("Detected marker IDs:", ids) 
                 if ids[i][0] == 0:
                     marker0pos = tvec.flatten()
                     marker0rot = rvec.flatten()
@@ -60,26 +77,37 @@ def getpos(frame):
                 elif ids[i][0] == 4:
                     marker4pos = tvec.flatten()
                     marker4rot = rvec.flatten()
+                elif ids[i][0] == 5:
+                    marker5pos = tvec.flatten()
+                    marker5rot = rvec.flatten()
+                elif ids[i][0] == 6:
+                    marker6pos = tvec.flatten()
+                    marker6rot = rvec.flatten()
     #print("Marker positions:", marker0pos, marker1pos, marker2pos, marker3pos, marker4pos)
-    if marker4pos[0] != 0:
-        imagepoints = [
+    imagepoints = [
             (marker0pos[0],marker0pos[1]),
             (marker1pos[0],marker1pos[1]),
             (marker2pos[0],marker2pos[1]),
             (marker3pos[0],marker3pos[1])
         ]
-        mappoints = [
-            (0,410),
-            (0,0),
-            (410,0),
-            (410,410)
-        ]
-
-        testpoint = [(marker4pos[0], marker4pos[1])]
-        mapped = map_desk_coordinates(imagepoints, mappoints, testpoint)
-        return int(mapped[0]), int(mapped[1])
-    print("Marker 4 location not found")
-    return (-1,-1) #Marker Not Found
+    mappoints = [
+        (0,410),
+        (0,0),
+        (410,0),
+        (410,410)
+    ]
+    marker4, marker5, marker6 = (-1,-1),(-1,-1),(-1,-1)
+    if marker4pos[0] != 0:
+        marker4 = map_desk_coordinates(imagepoints, mappoints, [(marker4pos[0], marker4pos[1])])
+    if marker5pos[0] != 0:
+        marker5 = map_desk_coordinates(imagepoints, mappoints, [(marker5pos[0], marker5pos[1])])
+        marker5[1] -= 16
+        marker5[0] += 5
+    if marker6pos[0] != 0:
+        marker6 = map_desk_coordinates(imagepoints, mappoints, [(marker6pos[0], marker6pos[1])])
+        marker6[0] -= 15
+        marker6[1] -= 5
+    return [marker4,marker5,marker6]
 
 def map_desk_coordinates(image_points, desk_points, test_points):
     """

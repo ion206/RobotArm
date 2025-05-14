@@ -1,4 +1,5 @@
 src/__pycache__
+src/tempCodeRunnerFile.py
 *.pyc
 .DS_Store
 src/config.cfg

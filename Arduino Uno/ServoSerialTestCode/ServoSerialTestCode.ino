@@ -22,7 +22,7 @@ const int SERVO1_PIN = 6;
 const int SERVO2_PIN = 5;
 const int SERVO3_PIN = 10;
 const int SERVO4_PIN = 11;
-const int SERVO5_PIN = 9;
+const int SERVO5_PIN = 3;
 
 // Create servo objects
 Servo servo1;
@@ -31,7 +31,7 @@ Servo servo3;
 Servo servo4;
 Servo servo5;
 
-  int values[5];  // Array to store five integers
+  int values[5] = {150, 130, 90, 123, 90};  // Array to store five integers
 
 
 void setup() {
@@ -74,7 +74,14 @@ void loop() {
     }
     Serial.println(); // End the message with a newline
   }}
-    
+
+      if(values[0] == 0 && values[1] == 0 && values[2] == 0 && values[3] == 0 && values[4] == 0){
+        servo1.detach();
+        servo2.detach();
+        servo3.detach();
+        servo4.detach();
+        servo5.detach();
+      }
       //values[0] = SERVO1_MIN_PULSE + (values[0] * ((SERVO1_MAX_PULSE - SERVO1_MIN_PULSE)/180));
       // Set servos to the specified angles
       servo1.write(values[0]);
