@@ -14,6 +14,8 @@ https://github.com/user-attachments/assets/65d640ed-7b3e-4d83-9f5d-62e66aa19349
 
 ---
 
+Robot CAD: https://cad.onshape.com/documents/1ee21a8057a253b31795bbef/w/9c2c5265c2ada1549ad536a6/e/7e8f0f0a8e8031cefa669db5?renderMode=0&uiState=683ba644ffe376037f0cd6a0
+
 ## 📦 Features
 - ArUco marker-based block detection and localization with planar Homography
 - Inverse kinematics with collision-aware motion planning using URDF and IKPy
